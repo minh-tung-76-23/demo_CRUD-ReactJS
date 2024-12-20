@@ -11,3 +11,81 @@ code {
 font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }  
+
+.app-container {
+  .add-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    .title {
+      font-size: 25px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .text {
+      font-weight: 600;
+      padding-bottom: 4px;
+    }
+
+    input {
+      padding: 8px;
+      width: 100%;
+      outline: none;
+      border: 1px solid #ccc;
+      margin-bottom: 8px;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #dedede;
+        cursor: pointer;
+      }
+    }
+
+    .input-password {
+        position: relative;
+
+      i {
+        position: absolute;
+        cursor: pointer;
+        top: 14px;
+        right: 12px;
+    
+      }
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      color: #ccc;
+
+      &.active {
+        background-color: rgb(254, 44, 85);
+        color: #fff;
+      }
+    }
+
+    button[disabled=disabled], button:disabled {
+      cursor: not-allowed;
+    }
+
+    .back {
+      text-align: center;
+      padding-top: 8px;
+      cursor: pointer;
+      i {
+        padding: 0 4px;
+        font-size: 13px;
+      }
+
+    }
+  }
+}

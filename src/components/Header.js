@@ -1,32 +1,64 @@
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-// import Container from 'react-bootstrap/Container';
-import { Form, FormControl, Button } from 'react-bootstrap'; // Thêm import này
+import logoApp from '../assets/img/logo192.png';
+import { useLocation, NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useContext } from 'react';
+import { UserContext } from '../Context/UserContext';
+import {useState, useEffect } from 'react';
 
 const Header = (props) => {
+    // const {hideHeader, setHideHeader} = useState(false);
+    // useEffect(() => {
+    //     if(window.location.pathname === '/login') {
+    //         setHideHeader(true);
+    //     }
+    // },[])
+
+    const { logout, user  } = useContext(UserContext);
+    const navigate = useNavigate();
+    const handleLogOut = () => {
+        logout();
+        navigate("/login");
+        toast.success("Logged out successfully!");
+    }
     return (
         <>
-            <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#link">Link</Nav.Link>
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
-                </Nav>
-                <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-success">Search</Button>
-                </Form>
-            </Navbar.Collapse>
+            <Navbar expand="lg" className="bg-body-tertiary">
+                <Container>
+                    <Navbar.Brand href="/">
+                        <img 
+                            src={logoApp}
+                            width="30px"
+                            height="30px"
+                            className='d-inline-block align-top mr-3'
+                            alt='img'
+                        />
+                        Minh Tung Learn React
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        {(user && user.auth || window.location.pathname === '/') && 
+                            <>
+                                <Nav className="me-auto">
+                                    <NavLink to="/" className="nav-link">Home</NavLink>
+                                    <NavLink to="/user" className="nav-link">Manage Users</NavLink>
+                                </Nav>
+                                <Nav>
+                                    {user && user.email && <span className='nav-link'>Welcome {user.email}</span>}
+                                    <NavDropdown title="Setting" id="basic-nav-dropdown">
+                                        {user && user.auth === false 
+                                        ? <NavLink to="/login" className="dropdown-item">Login</NavLink>
+                                        :<NavDropdown.Item onClick={() => handleLogOut()}> Logout</NavDropdown.Item> 
+                                        } 
+                                    </NavDropdown>
+                                </Nav>
+                            </>
+                        }
+                    </Navbar.Collapse>
+                </Container>
             </Navbar>
         </>
     );
